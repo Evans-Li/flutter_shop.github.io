@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_shop/components/adBanner.dart';
 import 'dart:async';
 import 'dart:io';
 import '../../config/service_url.dart';
@@ -43,16 +44,19 @@ class _HomePageState extends State<HomePage> {
             var data = snapshot.data;
             List<Map> bannerList = (data['data']['bannerList'] as List).cast();
             List<Map> cateList = (data['data']['cateList'] as List).cast();
+            String _adPicture = data['data']['adPicture'][0]['ad_picture'];
+            print('_adP------$_adPicture');
             return Column(
               children: [
                 BannerDiy(list: bannerList),
-                TopNavgatior(topNavList:cateList)
+                TopNavgatior(topNavList: cateList),
+                AdBanner(ad_picture: _adPicture)
               ],
             );
           } else{
             return Center(
               child:
-              Text('加载中')
+              Text('加载中...')
             );
           }
         },
