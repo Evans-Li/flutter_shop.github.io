@@ -9,8 +9,7 @@
 .history
 .svn/
 /run/
-
-
+/logs/
 # IntelliJ related
 *.iml
 *.ipr

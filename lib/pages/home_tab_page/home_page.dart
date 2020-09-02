@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_shop/components/adBanner.dart';
+import 'package:flutter_shop/components/launcher_phone.dart';
 import 'dart:async';
 import 'dart:io';
 import '../../config/service_url.dart';
@@ -42,15 +43,19 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             // var data = json.decode(snapshot.data.toString());
             var data = snapshot.data;
-            List<Map> bannerList = (data['data']['bannerList'] as List).cast();
-            List<Map> cateList = (data['data']['cateList'] as List).cast();
-            String _adPicture = data['data']['adPicture'][0]['ad_picture'];
-            print('_adP------$_adPicture');
+            List<Map> bannerList = (data['data']['bannerList'] as List).cast(); // banner图
+            List<Map> cateList = (data['data']['cateList'] as List).cast(); // 分类
+            String _adPicture = data['data']['adPicture'][0]['ad_picture']; // 广告
+            var _bossInfo = data['data']['company'];  //店长信息
+            String _bossPhone = _bossInfo[0]['phone']; // 店长电话
+            String _bossImg = _bossInfo[0]['boss_img'];  // 店长图片
+            print(_bossInfo);
             return Column(
               children: [
                 BannerDiy(list: bannerList),
                 TopNavgatior(topNavList: cateList),
-                AdBanner(ad_picture: _adPicture)
+                AdBanner(ad_picture: _adPicture),
+                LauncherPhone(bossImg: _bossImg, bossPhone: _bossPhone,)
               ],
             );
           } else{
@@ -74,8 +79,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(320),
-      padding: EdgeInsets.all(3),
+      height: ScreenUtil().setHeight(260),
+      padding: EdgeInsets.all(4),
       child: GridView.count(
         crossAxisCount: 5,
         padding: EdgeInsets.all(5),
