@@ -25,7 +25,7 @@ class _IndexPageState extends State<IndexPage> {
     BottomNavigationBarItem(
         icon: Icon(CupertinoIcons.profile_circled), title: Text('会员中心'))
   ];
-  final List tabBodies = [HomePage(), CategoryPage(), CartPage(), MemberPage()];
+  final List<Widget> tabBodies = [HomePage(), CategoryPage(), CartPage(), MemberPage()];
   @override
   void initState() {
     _currenPage = tabBodies[_currentIndex];
@@ -53,7 +53,10 @@ class _IndexPageState extends State<IndexPage> {
           });
         },
       ),
-      body: _currenPage,
+      body: IndexedStack(
+        index: _currentIndex,
+        children: tabBodies,
+      )
     );
   }
 }

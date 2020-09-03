@@ -12,14 +12,19 @@ import '../../components/banner.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  // List _bannerListData;
-  // List _categoryList;
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin  {
+  @override
+  bool get wantKeepAlive =>true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('home_page1111111');
+  }
   Dio dio = new Dio();
   Future fetchDate() async {
     try {

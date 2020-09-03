@@ -9,7 +9,7 @@ class Recommend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(230.0),
+      height: ScreenUtil().setHeight(260.0),
       // width: ScreenUtil().setWidth(750.0),
       margin: EdgeInsets.only(top:10.0),
       child: Column(
@@ -68,11 +68,12 @@ class Recommend extends StatelessWidget {
   // 推荐商品title组件
   Widget _titleWidget(){
     return Container(
+      height: 30,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         color: Colors.green[200],
         border: Border(
-          bottom: BorderSide(width: 0.5, color: Colors.green[200])
+          bottom: BorderSide(width: 1, color: Colors.green[200])
         )
       ),
       child: Text(
