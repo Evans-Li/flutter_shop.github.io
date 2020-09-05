@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_shop/components/adBanner.dart';
+import 'package:flutter_shop/components/floor_content.dart';
+import 'package:flutter_shop/components/floor_title.dart';
 import 'package:flutter_shop/components/recommend_list.dart';
 import 'dart:async';
 import '../../config/service_url.dart';
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      child: FutureBuilder(
+        child: FutureBuilder(
         future: fetchDate(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -52,6 +54,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             List<Map> cateList = (data['data']['cateList'] as List).cast(); // 分类
             List<Map> recommendList = (data['data']['recommendList'] as List).cast(); // 推荐
             String _adPicture = data['data']['adPicture'][0]['ad_picture']; // 广告
+            Map floor1GoodList = data['data']['floor1GodsList']; //楼层1
+            Map floor2GoodList = data['data']['floor2GodsList']; //楼层1
+            // List<Map> floor2GoodList = (data['data']['floor2GodsList'] as List).cast(); //楼层2
+            
+
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -59,6 +66,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   TopNavgatior(topNavList: cateList),
                   AdBanner(ad_picture: _adPicture),
                   Recommend(recommendList: recommendList),
+                  FloorTitle(pic_address: floor1GoodList['floor1Title']),
+                  FloorContent(floorGoodList: floor1GoodList['goodsList']),
+                  FloorTitle(pic_address: floor2GoodList['floor2Title']),
+                  FloorContent(floorGoodList: floor2GoodList['goodsList'])
                   // LauncherPhone(bossImg: _bossImg, bossPhone: _bossPhone,)
                 ],
               ),
@@ -79,16 +90,22 @@ class TopNavgatior extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(topNavList.length >5){
+      topNavList.removeRange(5, topNavList.length);
+    }
     return Container(
-      height: ScreenUtil().setHeight(260),
+      height: ScreenUtil().setHeight(130),
       padding: EdgeInsets.all(4),
       child: GridView.count(
           crossAxisCount: 5,
           padding: EdgeInsets.all(5),
-          children: topNavList.map((e) {
+          children: List.of(topNavList.map((e){
             return _gridViewItemUI(context, e);
-          }).toList()),
-    );
+          })),
+          // children: topNavList.map((e) {
+          //   return _gridViewItemUI(context, e);
+          // }).toList()),
+    ));
   }
 
   @override
