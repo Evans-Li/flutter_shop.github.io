@@ -1,16 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_shop/components/adBanner.dart';
 import 'package:flutter_shop/components/floor_content.dart';
 import 'package:flutter_shop/components/floor_title.dart';
 import 'package:flutter_shop/components/recommend_list.dart';
-import 'dart:async';
-import '../../config/service_url.dart';
 import '../../components/banner.dart';
+import '../../config/service_method.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -23,29 +19,17 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   bool get wantKeepAlive =>true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print('home_page1111111');
+    print('home page 挂载');
   }
-  Dio dio = new Dio();
-  Future fetchDate() async {
-    try {
-      Response response;
-      response = await dio.get(
-        servicePath['homeData'],
-      );
-      return response.data;
-    } catch (e) {
-      print(e);
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
         child: FutureBuilder(
-        future: fetchDate(),
+        future: getHomeData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             // var data = json.decode(snapshot.data.toString());
@@ -55,7 +39,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             List<Map> recommendList = (data['data']['recommendList'] as List).cast(); // 推荐
             String _adPicture = data['data']['adPicture'][0]['ad_picture']; // 广告
             Map floor1GoodList = data['data']['floor1GodsList']; //楼层1
-            Map floor2GoodList = data['data']['floor2GodsList']; //楼层1
+            Map floor2GoodList = data['data']['floor2GodsList']; //楼层2
             // List<Map> floor2GoodList = (data['data']['floor2GodsList'] as List).cast(); //楼层2
             
 
