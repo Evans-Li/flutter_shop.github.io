@@ -5,6 +5,7 @@ import 'package:flutter_shop/components/adBanner.dart';
 import 'package:flutter_shop/components/floor_content.dart';
 import 'package:flutter_shop/components/floor_title.dart';
 import 'package:flutter_shop/components/recommend_list.dart';
+import 'package:flutter_shop/config/service_url.dart';
 import '../../components/banner.dart';
 import '../../config/service_method.dart';
 
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return Scaffold(
         body: Container(
         child: FutureBuilder(
-        future: getHomeData(),
+        future: request(servicePath['homeData']),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             // var data = json.decode(snapshot.data.toString());
@@ -74,18 +75,22 @@ class TopNavgatior extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(topNavList.length >5){
-      topNavList.removeRange(5, topNavList.length);
+    // 只显示5个分类
+    if(topNavList.length >6){
+      topNavList.removeRange(6, topNavList.length);
     }
     return Container(
-      height: ScreenUtil().setHeight(130),
+      height: ScreenUtil().setHeight(167),
+      // height: 167.h,
       padding: EdgeInsets.all(4),
       child: GridView.count(
-          crossAxisCount: 5,
-          padding: EdgeInsets.all(5),
-          children: List.of(topNavList.map((e){
-            return _gridViewItemUI(context, e);
-          })),
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 1,
+        padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
+        children: List.of(topNavList.map((e){
+          return _gridViewItemUI(context, e);
+        })),
+          // toList() 方法等同于 List.of()
           // children: topNavList.map((e) {
           //   return _gridViewItemUI(context, e);
           // }).toList()),
@@ -99,7 +104,7 @@ class TopNavgatior extends StatelessWidget {
           print('点击了导航');
         },
         child: Container(
-          // padding: EdgeInsets.all(4),
+          padding: EdgeInsets.only(top:5),
           child: Column(
             children: [
               Image.network(
