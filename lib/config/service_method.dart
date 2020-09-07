@@ -5,9 +5,9 @@ Future request(url, {dataForm}) async {
   Dio dio = new Dio();
   try {
     Response response;
-    print('开始获取数据$url');
+    print('拉取数据 $url');
     if (dataForm == null) {
-      response = await dio.post(url);
+      response = await dio.post(url,data:{});
     } else {
       response = await dio.post(url,data:dataForm);
     }

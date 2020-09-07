@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -24,23 +26,8 @@ class _HomePageState extends State<HomePage>
   // EasyRefreshController _controller = EasyRefreshController();
   EasyRefreshController _controller;
   ScrollController _scrollController;
-
-  List<Map> _hotGoodsList = [
-    {
-      'image':
-          'http://pic.qianye88.com/4kshipin0c615305-215c-32af-b46b-abcbf890aa9c.jpg?imageMogr2/thumbnail/x300/quality/90!',
-      'name': '火爆商品1',
-      'mallprice': 79,
-      'price': 199
-    },
-    {
-      'image':
-          'http://pic.qianye88.com/4kshipin0c615305-215c-32af-b46b-abcbf890aa9c.jpg?imageMogr2/thumbnail/x300/quality/90!',
-      'name': '火爆商品2',
-      'mallprice': 79,
-      'price': 199
-    }
-  ];
+  int page  = 1;  // 加载更多, 当前页数
+  List _hotGoodsList = [];
 
   @override
   void initState() {
@@ -76,6 +63,8 @@ class _HomePageState extends State<HomePage>
               controller: _controller, //控制加载和刷新完成
               scrollController: _scrollController,
               enableControlFinishLoad: true,
+              taskIndependence: true,
+              topBouncing: true,
               child: ListView(children: [
                 Column(
                   children: [
@@ -87,9 +76,7 @@ class _HomePageState extends State<HomePage>
                     FloorContent(floorGoodList: floor1GoodList['goodsList']),
                     FloorTitle(pic_address: floor2GoodList['floor2Title']),
                     FloorContent(floorGoodList: floor2GoodList['goodsList']),
-                    HotGoods(
-                      hotGoodList: _hotGoodsList,
-                    ), //火爆商品
+                    HotGoods(hotGoodList: _hotGoodsList), //火爆商品
                     // LauncherPhone(bossImg: _bossImg, bossPhone: _bossPhone,)
                   ],
                 ),
@@ -97,11 +84,18 @@ class _HomePageState extends State<HomePage>
               // 上拉加载
               onLoad: () async {
                 print('加载更多');
-                await Future.delayed(Duration(seconds: 2), () {
-                  print('delah111111111111111');
-                }).then((value){
-                  _controller.finishLoad(success:true, noMore: false);
-                });
+                var formPage ={'page': page};
+                await request(servicePath['homeHotGoods'],dataForm: formPage).then((value){
+                  print(value['data'][0] is Map);
+                    List list = value['data'];
+                    _controller.finishLoad(success:true, noMore: false);
+                    setState(() {
+                      page++;
+                      _hotGoodsList.addAll(list);
+                    });
+                  }).catchError((e){
+                    print(e);
+                  });
               },
               // 下拉刷新
               onRefresh: () async {

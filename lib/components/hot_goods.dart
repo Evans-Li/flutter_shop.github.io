@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/screenutil.dart';
 
 // 火爆商品,上啦加载商品
 class HotGoods extends StatefulWidget {
-  List<Map> hotGoodList=[];
+  List hotGoodList=[];
   HotGoods({
     Key key,
     @required this.hotGoodList
@@ -15,8 +15,6 @@ class HotGoods extends StatefulWidget {
 
 class _HotGoodsState extends State<HotGoods> {
   @override
-  int page = 1; //上拉加载页数
-  // List<Map> hotGoodsList = []
   @override
   Widget build(BuildContext context) {
     return Container(
