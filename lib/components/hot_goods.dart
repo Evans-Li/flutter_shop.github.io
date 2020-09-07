@@ -5,7 +5,10 @@ import 'package:flutter_screenutil/screenutil.dart';
 // 火爆商品,上啦加载商品
 class HotGoods extends StatefulWidget {
   List<Map> hotGoodList=[];
-  HotGoods(this.hotGoodList,{Key key, }) : super(key: key);
+  HotGoods({
+    Key key,
+    @required this.hotGoodList
+  }) : super(key: key);
   @override
   _HotGoodsState createState() => _HotGoodsState();
 }
