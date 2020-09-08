@@ -138,6 +138,7 @@ class TopNavgatior extends StatelessWidget {
         // height: 167.h,
         padding: EdgeInsets.all(4),
         child: GridView.count(
+          // physics: NeverScrollableScrollPhysics(), // 禁止gradview 滚动
           scrollDirection: Axis.horizontal,
           crossAxisCount: 1,
           padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
