@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -39,7 +37,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    // GlobalKey<Essy>
     return Scaffold(
         body: Container(
       child: FutureBuilder(
@@ -86,13 +83,19 @@ class _HomePageState extends State<HomePage>
                 print('加载更多');
                 var formPage ={'page': page};
                 await request(servicePath['homeHotGoods'],dataForm: formPage).then((value){
-                  print(value['data'][0] is Map);
+                  if(value['data'].length <= 0){
+                    print('没有数据了');
+                    _controller.finishLoad(success:true, noMore: true);
+                    return;
+                  } else {
+                    print(value['data'][0] is Map);
                     List list = value['data'];
                     _controller.finishLoad(success:true, noMore: false);
                     setState(() {
                       page++;
                       _hotGoodsList.addAll(list);
                     });
+                  }
                   }).catchError((e){
                     print(e);
                   });
@@ -105,8 +108,9 @@ class _HomePageState extends State<HomePage>
               header: BallPulseHeader(
                 color: Colors.green[200]
               ),
-              footer: BezierBounceFooter(
-                backgroundColor: Colors.green[200]
+              footer: BallPulseFooter(
+                color: Colors.green[200],
+                backgroundColor: Colors.white
               )
             );
           } else {
